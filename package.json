@@ -1,9 +1,14 @@
 {
-    "name": "vsc-afmicc.getter-setter-generator",
+    "name": "GetterAndSetterGenerator",
     "displayName": "Getter and Setter Generator",
     "description": "This extension generate get and set methods from the class variable declarations.",
     "version": "1.0.0",
     "publisher": "afmicc",
+    "repository": 
+    {
+        "type": "git",
+        "url": "https://github.com/afmicc/getter-setter-generator"    
+    },
     "engines": {
         "vscode": "^1.20.0"
     },
