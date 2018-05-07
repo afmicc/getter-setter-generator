@@ -1,10 +1,8 @@
 const vscode = require('vscode');
 
-function activate(context) 
-{
+function activate(context) {
 
-    let disposable = vscode.commands.registerCommand('extension.generateGetterAndSetters', function () 
-    {
+    let disposable = vscode.commands.registerCommand('extension.generateGetterAndSetters', function () {
         var editor = vscode.window.activeTextEditor;
         if (!editor)
             return; // No open text editor
@@ -12,27 +10,23 @@ function activate(context)
         var selection = editor.selection;
         var text = editor.document.getText(selection);
 
-        if (text.length < 1)
-        {
+        if (text.length < 1) {
             vscode.window.showErrorMessage('No selected properties.');
             return;
         }
 
-        try 
-        {
+        try {
             var getterAndSetter = createGetterAndSetter(text);
 
             editor.edit(
                 edit => editor.selections.forEach(
-                  selection => 
-                  {
-                    edit.insert(selection.end, getterAndSetter);
-                  }
+                    selection => {
+                        edit.insert(selection.end, getterAndSetter);
+                    }
                 )
-              );
-        } 
-        catch (error) 
-        {
+            );
+        }
+        catch (error) {
             console.log(error);
             vscode.window.showErrorMessage('Something went wrong! Try that the properties are in this format: "private String name;"');
         }
@@ -41,59 +35,67 @@ function activate(context)
     context.subscriptions.push(disposable);
 }
 
-function toPascalCase(str) 
-{
-    return str.replace(/\w+/g,w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+function toPascalCase(str) {
+    return str.replace(/\w+/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+}
+function toLowerCamelCase(str) {
+    let arr = [];
+    let word = str[0].toUpperCase();
+    for (i = 1; i < str.length; i++) {
+        if (str.charAt(i) == str.charAt(i).toLowerCase()) {
+            word += str.charAt(i);
+        }
+        else {
+            arr.push(word);
+            word = str.charAt(i);
+        }
+    }
+    arr.push(word);
+    return arr.join('');
 }
 
-function createGetterAndSetter(textPorperties)
-{
+function createGetterAndSetter(textPorperties) {
     var properties = textPorperties.split('\r\n').filter(x => x.length > 2).map(x => x.replace(';', ''));
 
     var generatedCode = `
-`;
-    for (let p of properties) 
-    {
+    `;
+    for (let p of properties) {
         while (p.startsWith(" ")) p = p.substr(1);
         while (p.startsWith("\t")) p = p.substr(1);
 
         let words = p.split(" ").map(x => x.replace('\r\n', ''));
         let type, attribute, Attribute = "";
         let create = false;
-        
+
         // if words == ["private", "String", "name"];
-        if (words.length > 2)
-        {
+        if (words.length > 2) {
             type = words[1];
             attribute = words[2];
-            Attribute = toPascalCase(words[2]);
+            Attribute = toLowerCamelCase(words[2]);
 
             create = true;
         }
         // if words == ["String", "name"];
-        else if (words.length == 2)
-        {
+        else if (words.length == 2) {
             type = words[0];
             attribute = words[1];
-            Attribute = toPascalCase(words[1]);
-            
-            create = true;            
+            Attribute = toLowerCamelCase(words[1]);
+
+            create = true;
         }
         // if words == ["name"];
-        else if (words.length)
-        {
+        else if (words.length) {
             type = "Object";
             attribute = words[0];
-            Attribute = toPascalCase(words[0]);
-            
-            create = true;            
+            Attribute = toLowerCamelCase(words[0]);
+
+            create = true;
         }
 
-        if (create)
-        {
+        if (create) {
 
-            let code = 
-`
+            let code =
+                `
 \tpublic ${type} get${Attribute}()
 \t{
 \t\treturn this.${attribute};
