@@ -43,7 +43,7 @@ function activate(context)
 
 function toPascalCase(str) 
 {
-    return str.replace(/\w+/g,w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+    return str.replace(/\w+/g,w => w[0].toUpperCase() + w.slice(1));
 }
 
 function createGetterAndSetter(textPorperties)
@@ -94,13 +94,11 @@ function createGetterAndSetter(textPorperties)
 
             let code = 
 `
-\tpublic ${type} get${Attribute}()
-\t{
+\tpublic ${type} get${Attribute}() {
 \t\treturn this.${attribute};
 \t}
 
-\tpublic void ${type == "Boolean" || type == "bool" ? "is" : "set"}${Attribute}(${type} ${attribute})
-\t{
+\tpublic void ${type == "Boolean" || type == "bool" ? "is" : "set"}${Attribute}(${type} ${attribute}) {
 \t\tthis.${attribute} = ${attribute};
 \t}
 `;
