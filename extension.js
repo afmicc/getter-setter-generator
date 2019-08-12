@@ -30,6 +30,9 @@ function activate(context)
                   }
                 )
               );
+
+            // format getterAndSetter
+            vscode.commands.executeCommand('editor.action.formatSelection');
         } 
         catch (error) 
         {
