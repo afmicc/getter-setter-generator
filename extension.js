@@ -30,6 +30,9 @@ function activate(context)
                   }
                 )
               );
+
+            // format getterAndSetter
+            vscode.commands.executeCommand('editor.action.formatSelection');
         } 
         catch (error) 
         {
@@ -48,7 +51,7 @@ function toPascalCase(str)
 
 function createGetterAndSetter(textPorperties)
 {
-    var properties = textPorperties.split('\r\n').filter(x => x.length > 2).map(x => x.replace(';', ''));
+    var properties = textPorperties.split(/\r?\n/).filter(x => x.length > 2).map(x => x.replace(';', ''));
 
     var generatedCode = `
 `;
@@ -57,7 +60,7 @@ function createGetterAndSetter(textPorperties)
         while (p.startsWith(" ")) p = p.substr(1);
         while (p.startsWith("\t")) p = p.substr(1);
 
-        let words = p.split(" ").map(x => x.replace('\r\n', ''));
+        let words = p.split(" ").map(x => x.replace(/\r?\n/, ''));
         let type, attribute, Attribute = "";
         let create = false;
         
