@@ -97,11 +97,11 @@ function createGetterAndSetter(textPorperties)
 
             let code = 
 `
-\tpublic ${type} get${Attribute}() {
+\tpublic ${type} ${type.startsWith('bool') ? 'is' : 'get'}${Attribute}() {
 \t\treturn this.${attribute};
 \t}
 
-\tpublic void ${type == "Boolean" || type == "bool" ? "is" : "set"}${Attribute}(${type} ${attribute}) {
+\tpublic void set${Attribute}(${type} ${attribute}) {
 \t\tthis.${attribute} = ${attribute};
 \t}
 `;
