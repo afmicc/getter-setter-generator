@@ -2,7 +2,7 @@
     "name": "GetterAndSetterGenerator",
     "displayName": "Getter and Setter Generator",
     "description": "This extension generate get and set methods from the class variable declarations.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "publisher": "afmicc",
     "repository": 
     {
