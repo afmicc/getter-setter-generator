@@ -63,6 +63,9 @@ function createGetterAndSetter(textPorperties)
         let words = p.split(" ").map(x => x.replace(/\r?\n/, ''));
         let type, attribute, Attribute = "";
         let create = false;
+
+        // filter decorators
+        words = words.filter(word => !word.startsWith('@'));
         
         // if words == ["private", "String", "name"];
         if (words.length > 2)
