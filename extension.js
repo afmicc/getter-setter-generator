@@ -63,9 +63,21 @@ function createGetterAndSetter(textPorperties)
         let words = p.split(" ").map(x => x.replace(/\r?\n/, ''));
         let type, attribute, Attribute = "";
         let create = false;
+        let isStatic = false;
         
+        // if words == ["private", "static", "String", "name"]
+        if (words.length > 3) {
+            type = words[2]
+            attribute = words[3]
+            Attribute = toPascalCase(words[3])
+
+            create = true
+            if (words[1] == 'static') {
+                isStatic = true;
+            }
+        }
         // if words == ["private", "String", "name"];
-        if (words.length > 2)
+        else if (words.length > 2)
         {
             type = words[1];
             attribute = words[2];
@@ -97,12 +109,12 @@ function createGetterAndSetter(textPorperties)
 
             let code = 
 `
-\tpublic ${type} ${type.startsWith('bool') ? 'is' : 'get'}${Attribute}() {
-\t\treturn this.${attribute};
+\tpublic ${isStatic ? 'static' : ''} ${type} ${type.startsWith('bool') ? 'is' : 'get'}${Attribute}() {
+\t\treturn ${isStatic ? '' : 'this.'}${attribute};
 \t}
 
-\tpublic void set${Attribute}(${type} ${attribute}) {
-\t\tthis.${attribute} = ${attribute};
+\tpublic ${isStatic ? 'static' : ''} void set${Attribute}(${type} ${isStatic ? `new${Attribute}` : attribute}) {
+\t\t${isStatic ? attribute : `this.${attribute}`} = ${isStatic ? `new${Attribute}` : attribute};
 \t}
 `;
             generatedCode += code;
