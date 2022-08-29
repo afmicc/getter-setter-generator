@@ -1,39 +1,43 @@
 {
-    "name": "GetterAndSetterGenerator",
-    "displayName": "Getter and Setter Generator",
-    "description": "This extension generate get and set methods from the class variable declarations.",
-    "version": "1.0.3",
-    "publisher": "afmicc",
-    "repository": 
-    {
-        "type": "git",
-        "url": "https://github.com/afmicc/getter-setter-generator"    
-    },
-    "engines": {
-        "vscode": "^1.20.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.generateGetterAndSetters"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.generateGetterAndSetters",
-            "title": "Generate get and set methods"
-        }]
-    },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "eslint": "^4.11.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    }
+  "name": "getter-and-setter-generator",
+  "displayName": "Getter and Setter Generator",
+  "description": "This extension generate get and set methods from the class variable declarations.",
+  "version": "1.1.0",
+  "publisher": "afmicc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/afmicc/getter-setter-generator"
+  },
+  "engines": {
+    "vscode": "^1.65.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.generateGetterAndSetters"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.generateGetterAndSetters",
+        "title": "Generate get and set methods"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint . --ext .ts,.tsx",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.70.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.13.0",
+    "typescript": "^4.7.2"
+  }
 }
