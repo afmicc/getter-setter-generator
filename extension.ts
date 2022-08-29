@@ -52,7 +52,6 @@ function createGetterAndSetter(
     .filter((x) => x.length > 2)
     .map((x) => x.replace(";", "").replace(":", ""));
 
-  console.log(languageId);
   switch (languageId) {
     case "java":
       return java(properties);
